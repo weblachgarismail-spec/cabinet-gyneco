@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id          String   @id @default(cuid())
+  username    String   @unique
+  password    String
+  displayName String?
+  role        String   @default("SECRETARY")
+  themeColor  String?  @default("#8B5CF6")
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Log {
+  id        String   @id @default(cuid())
+  userId    String
+  username  String
+  action    String
+  entity    String
+  entityId  String?
+  details   String?
+  createdAt DateTime @default(now())
+}
+
+model AppointmentComment {
+  id            String   @id @default(cuid())
+  appointmentId String
+  userId        String
+  username      String
+  comment       String
+  createdAt     DateTime @default(now())
+
+  appointment   Appointment @relation(fields: [appointmentId], references: [id])
+}
+
+model Appointment {
+  id               String   @id @default(cuid())
+  date             DateTime
+  time             String
+  patientName      String
+  phone            String
+  email            String?
+  city             String?
+  notes            String?
+  nationalId       String?
+  consultationType String?
+  status           String   @default("PENDING")
+  cancelComment    String?
+  arrivedAt        DateTime?
+  remindedAt       DateTime?
+  postponedToDate  String?
+  createdAt        DateTime @default(now())
+
+  comments         AppointmentComment[]
+}
+
+model PatientRecord {
+  id                  String   @id @default(cuid())
+  patientName         String
+  phone               String
+  nationalId          String?  @unique
+  address             String?
+  email               String?
+  city                String?
+  dateOfBirth         DateTime?
+  notes               String?
+  nextAppointmentAt   DateTime?
+  nextAppointmentNotes String?
+  deletedAt           DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  medicalActs         MedicalAct[]
+}
+
+model MedicalAct {
+  id              String   @id @default(cuid())
+  patientRecordId String
+  patientRecord   PatientRecord @relation(fields: [patientRecordId], references: [id], onDelete: Cascade)
+  actType         String
+  actDate         DateTime
+  description     String?
+  doctorNotes     String?
+  prescribedMeds  String?
+  createdAt       DateTime @default(now())
+}
