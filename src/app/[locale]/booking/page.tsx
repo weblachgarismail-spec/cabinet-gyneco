@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
 import { CalendarPicker } from "@/components/booking/CalendarPicker";
 import { TimeSlotPicker } from "@/components/booking/TimeSlotPicker";
 
@@ -21,6 +22,7 @@ export default function BookingPage() {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [notes, setNotes] = useState("");
+  const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -48,6 +50,7 @@ export default function BookingPage() {
     if (!name.trim()) errs.name = t("form_name_error");
     if (!phone.trim() || phone.trim().length < 7) errs.phone = t("form_phone_error");
     if (!city.trim()) errs.city = t("form_city_error");
+    if (!consent) errs.consent = t("form_consent_error");
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
@@ -174,6 +177,11 @@ export default function BookingPage() {
               />
             </div>
 
+            <label className="flex items-start gap-2 text-xs opacity-70">
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5" />
+              <span>{t("form_consent")} <Link href="/privacy" className="underline">{t("form_consent_link")}</Link></span>
+            </label>
+            {errors.consent && <p className="text-xs text-red-500">{errors.consent}</p>}
             <button
               onClick={handleSubmit}
               disabled={submitting}
