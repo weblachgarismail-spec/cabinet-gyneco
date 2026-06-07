@@ -7,7 +7,7 @@ export function LogoutButton() {
   const t = useTranslations("admin");
   return (
     <button
-      onClick={() => signOut({ callbackUrl: "/admin/login" })}
+      onClick={() => signOut({ callbackUrl: "/gestion" })}
       className="rounded-lg px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
       style={{ backgroundColor: "#ef4444" }}
     >

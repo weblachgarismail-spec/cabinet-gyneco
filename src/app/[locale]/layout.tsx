@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { ChatBot } from "@/components/chat/ChatBot";
 import { LocaleProvider } from "@/components/layout/LocaleProvider";
+import { AuthProvider } from "@/components/layout/AuthProvider";
 
 type Props = { children: ReactNode; params: Promise<{ locale: string }> };
 
@@ -33,10 +34,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   };
 
   return (
+    <AuthProvider>
     <LocaleProvider>
       <NextIntlClientProvider messages={messages}>
         <div className="flex min-h-screen flex-col" style={{ fontFamily: fonts[locale as keyof typeof fonts] || fonts.fr }}>
-          <Header locale={locale} navLabels={navLabels} />
+          <Header navLabels={navLabels} />
           <main className="flex-1">{children}</main>
           <Footer locale={locale} />
           <WhatsAppButton />
@@ -44,5 +46,6 @@ export default async function LocaleLayout({ children, params }: Props) {
         </div>
       </NextIntlClientProvider>
     </LocaleProvider>
+    </AuthProvider>
   );
 }

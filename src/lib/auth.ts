@@ -95,6 +95,6 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  pages: { signIn: "/admin/login" },
+  pages: { signIn: "/gestion" },
   secret: process.env.NEXTAUTH_SECRET,
 };

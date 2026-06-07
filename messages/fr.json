@@ -283,7 +283,7 @@
         "whatsapp": "Envoyer un message WhatsApp"
     },
     "admin": {
-        "login_title": "Connexion Admin",
+        "login_title": "Portail d'administration",
         "login_button": "Se connecter",
         "appointments_title": "Gestion des rendez-vous",
         "pending": "En attente",

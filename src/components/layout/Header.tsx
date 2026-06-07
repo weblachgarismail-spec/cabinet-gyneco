@@ -1,18 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { signOut, useSession } from "next-auth/react";
 import { Link, usePathname } from "@/navigation";
 
-type Props = { locale: string; navLabels: Record<string, string> };
+type Props = { navLabels: Record<string, string> };
 
-const navKeys = ["home", "about", "services", "blog", "booking", "contact"] as const;
+const publicKeys = ["home", "about", "services", "blog", "booking", "contact"] as const;
 
 export function Header({ navLabels }: Props) {
   const pathname = usePathname();
   const currentLocale = useLocale();
+  const { data: session, status } = useSession();
+  const t = useTranslations("admin");
   const [mobileOpen, setMobileOpen] = useState(false);
   const targetLocale = currentLocale === "fr" ? "ar" : "fr";
+  const userRole = (session?.user as { role?: string })?.role || "";
+
+  const isAdmin = pathname.includes("/admin/");
+
+  const adminLinks = [
+    { href: `/${currentLocale}/admin/appointments`, label: t("appointments_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+    { href: `/${currentLocale}/admin/patients`, label: t("patients_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+    { href: `/${currentLocale}/admin/profile`, label: t("profile_nav"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+  ];
+  if (userRole === "SUPER_ADMIN") {
+    adminLinks.splice(2, 0, { href: `/${currentLocale}/admin/users`, label: t("users_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(3, 0, { href: `/${currentLocale}/admin/logs`, label: t("logs_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(4, 0, { href: `/${currentLocale}/admin/data`, label: t("data_nav"), roles: ["SUPER_ADMIN"] });
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -21,18 +38,47 @@ export function Header({ navLabels }: Props) {
           Cabinet Gynécologique
         </Link>
 
-        <nav className={`${mobileOpen ? "block" : "hidden"} md:flex md:items-center md:gap-6`}>
-          {navKeys.map((key) => (
-            <Link
-              key={key}
-              href={key === "home" ? "/" : `/${key}`}
-              className="block px-3 py-2 text-sm transition-colors hover:opacity-70"
-              style={{ color: "var(--color-text)" }}
-              onClick={() => setMobileOpen(false)}
-            >
-              {navLabels[key]}
-            </Link>
-          ))}
+        <nav className={`${mobileOpen ? "block" : "hidden"} md:flex md:items-center md:gap-4`}>
+          {isAdmin ? (
+            <>
+              {status === "loading" ? null : (
+                <>
+                  {adminLinks.filter((l) => l.roles.includes(userRole)).map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="block px-2 py-2 text-sm transition-colors hover:opacity-70"
+                      style={{ color: "var(--color-text)" }}
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  <button
+                    onClick={() => signOut({ callbackUrl: "/gestion" })}
+                    className="rounded-lg px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
+                    style={{ backgroundColor: "#ef4444" }}
+                  >
+                    {t("logout")}
+                  </button>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {publicKeys.map((key) => (
+                <Link
+                  key={key}
+                  href={key === "home" ? "/" : `/${key}`}
+                  className="block px-3 py-2 text-sm transition-colors hover:opacity-70"
+                  style={{ color: "var(--color-text)" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {navLabels[key]}
+                </Link>
+              ))}
+            </>
+          )}
           <Link
             href={pathname}
             locale={targetLocale}

@@ -283,7 +283,7 @@
         "whatsapp": "أرسل رسالة واتساب"
     },
     "admin": {
-        "login_title": "تسجيل الدخول للإدارة",
+        "login_title": "بوابة الإدارة",
         "login_button": "تسجيل الدخول",
         "appointments_title": "إدارة المواعيد",
         "pending": "قيد الانتظار",

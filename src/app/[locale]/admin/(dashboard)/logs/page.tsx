@@ -42,7 +42,7 @@ export default function AdminLogsPage() {
 
   useEffect(() => {
     fetchLogs();
-    fetch("/api/admin/users").then((r) => r.json()).then(setUsers).catch(() => {});
+    fetch("/api/admin/users").then((r) => r.json()).then((d) => { if (Array.isArray(d)) setUsers(d); }).catch(() => {});
   }, []);
 
   const clearFilters = () => {
@@ -54,7 +54,7 @@ export default function AdminLogsPage() {
     setAction("");
   };
 
-  const userOptions = (users as AdminUser[]).filter((u) => u.id);
+  const userOptions = users.filter((u) => u.id);
 
   return (
     <div>
