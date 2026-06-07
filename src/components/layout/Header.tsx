@@ -21,14 +21,14 @@ export function Header({ navLabels }: Props) {
   const isAdmin = pathname.includes("/admin/");
 
   const adminLinks = [
-    { href: `/${currentLocale}/admin/appointments`, label: t("appointments_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
-    { href: `/${currentLocale}/admin/patients`, label: t("patients_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
-    { href: `/${currentLocale}/admin/profile`, label: t("profile_nav"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+    { href: "/admin/appointments", label: t("appointments_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+    { href: "/admin/patients", label: t("patients_title"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
+    { href: "/admin/profile", label: t("profile_nav"), roles: ["SUPER_ADMIN", "SECRETARY", "DOCTOR"] },
   ];
   if (userRole === "SUPER_ADMIN") {
-    adminLinks.splice(2, 0, { href: `/${currentLocale}/admin/users`, label: t("users_nav"), roles: ["SUPER_ADMIN"] });
-    adminLinks.splice(3, 0, { href: `/${currentLocale}/admin/logs`, label: t("logs_nav"), roles: ["SUPER_ADMIN"] });
-    adminLinks.splice(4, 0, { href: `/${currentLocale}/admin/data`, label: t("data_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(2, 0, { href: "/admin/users", label: t("users_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(3, 0, { href: "/admin/logs", label: t("logs_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(4, 0, { href: "/admin/data", label: t("data_nav"), roles: ["SUPER_ADMIN"] });
   }
 
   return (
