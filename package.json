@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "playwright test",
     "test:headed": "playwright test --headed",
+    "test:api": "node scripts/api-tests.mjs",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:setup": "npx prisma migrate dev && npx tsx prisma/seed.ts"
   },
