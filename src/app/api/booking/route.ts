@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createAppointment } from "@/lib/booking";
+import { sendConfirmationEmail } from "@/lib/email";
 import { logger } from "@/lib/logger";
 
 export async function POST(request: NextRequest) {
@@ -13,6 +14,12 @@ export async function POST(request: NextRequest) {
 
     const appointment = await createAppointment({ date, time, patientName, phone, email, city, notes });
     logger.info("Appointment created", { id: appointment.id, date, time });
+
+    if (email) {
+      sendConfirmationEmail({ to: email, patientName, date, time }).catch((err) =>
+        logger.error("Failed to send confirmation email", { error: err, appointmentId: appointment.id })
+      );
+    }
 
     return NextResponse.json({ success: true, id: appointment.id }, { status: 201 });
   } catch (error) {
