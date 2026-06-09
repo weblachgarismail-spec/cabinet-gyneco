@@ -31,6 +31,7 @@ export function Header({ navLabels }: Props) {
     adminLinks.splice(3, 0, { href: "/admin/users", label: t("users_nav"), roles: ["SUPER_ADMIN"] });
     adminLinks.splice(4, 0, { href: "/admin/logs", label: t("logs_nav"), roles: ["SUPER_ADMIN"] });
     adminLinks.splice(5, 0, { href: "/admin/data", label: t("data_nav"), roles: ["SUPER_ADMIN"] });
+    adminLinks.splice(6, 0, { href: "/admin/settings", label: t("settings_nav"), roles: ["SUPER_ADMIN"] });
   }
 
   return (

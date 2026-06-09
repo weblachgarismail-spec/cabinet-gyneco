@@ -424,6 +424,7 @@
 "users_nav": "Utilisateurs",
         "logs_nav": "Traçabilité",
         "profile_nav": "Profil",
+        "settings_nav": "Paramètres",
         "users_title": "Gestion des utilisateurs",
         "create_user": "Nouvel utilisateur",
         "delete_user_confirm": "Supprimer cet utilisateur ?",

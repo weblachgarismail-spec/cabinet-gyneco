@@ -3,6 +3,8 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { CalendarView } from "@/components/appointments/CalendarView";
+import { useToast } from "@/components/ui/Toast";
 
 type Comment = {
   id: string;
@@ -41,7 +43,9 @@ const parseTime = (time: string) => {
 export function AdminAppointmentsTable({ appointments, locale, now, userRole }: Props) {
   const t = useTranslations("admin");
   const router = useRouter();
+  const { toast } = useToast();
   const [items, setItems] = useState(appointments);
+  const [viewMode, setViewMode] = useState<"table" | "calendar">("table");
   const [loading, setLoading] = useState<string | null>(null);
   const [cancelModal, setCancelModal] = useState<{ id: string } | null>(null);
   const [cancelComment, setCancelComment] = useState("");
@@ -139,12 +143,15 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
               : a
           )
         );
+        toast("success", `Statut mis à jour → ${status}`);
         router.refresh();
+      } else {
+        toast("error", "Erreur lors de la mise à jour");
       }
     } finally {
       setLoading(null);
     }
-  }, [router]);
+  }, [router, toast]);
 
   const handleCancelClick = (id: string) => {
     setCancelModal({ id });
@@ -168,7 +175,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       });
       if (res.ok) {
         setItems((prev) => prev.filter((a) => a.id !== id));
+        toast("success", "Rendez-vous supprimé");
         router.refresh();
+      } else {
+        toast("error", "Erreur lors de la suppression");
       }
     } finally {
       setLoading(null);
@@ -187,7 +197,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       if (res.ok) {
         setCommentModal(null);
         setCommentText("");
+        toast("success", "Commentaire envoyé");
         router.refresh();
+      } else {
+        toast("error", "Erreur lors de l'envoi");
       }
     } finally {
       setLoading(null);
@@ -245,7 +258,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         setItems((prev) => [created, ...prev]);
         setWalkinModal(false);
         setWalkinForm({ patientName: "", phone: "", email: "", city: "", date: "", time: "", nationalId: "", consultationType: "" });
+        toast("success", "Patient ajouté sans RDV");
         router.refresh();
+      } else {
+        toast("error", "Erreur lors de l'ajout");
       }
     } finally {
       setLoading(null);
@@ -308,13 +324,29 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         </div>
       </div>
 
-      {canAct && (
-        <div className="mb-4 flex items-center gap-3">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "table" ? "text-white" : "opacity-60 hover:opacity-100"}`}
+            style={{ backgroundColor: viewMode === "table" ? "var(--color-primary)" : "#f3f4f6" }}
+          >
+            📋 Tableau
+          </button>
+          <button
+            onClick={() => setViewMode("calendar")}
+            className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "calendar" ? "text-white" : "opacity-60 hover:opacity-100"}`}
+            style={{ backgroundColor: viewMode === "calendar" ? "var(--color-primary)" : "#f3f4f6" }}
+          >
+            📅 Calendrier
+          </button>
+        </div>
+        {canAct && (
           <button onClick={() => setWalkinModal(true)} className="rounded-lg px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90" style={{ backgroundColor: "var(--color-primary)" }}>
             + {t("walkin_add")}
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl p-3 shadow-sm" style={{ backgroundColor: "#fff" }}>
         <div>
@@ -344,6 +376,23 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         )}
       </div>
 
+      {viewMode === "calendar" ? (
+        <CalendarView
+          appointments={items}
+          locale={locale}
+          canAct={canAct}
+          isDoctor={isDoctor}
+          statusLabels={{ PENDING: t("pending"), CONFIRMED: t("confirmed"), CANCELLED: t("cancelled"), ARRIVED: t("arrived"), MISSED: t("missed"), POSTPONED: t("postponed") }}
+          statusColors={statusColors}
+          loading={loading}
+          onConfirm={(id) => updateStatus(id, "CONFIRMED")}
+          onArrived={(id) => updateStatus(id, "ARRIVED")}
+          onMissed={(id) => updateStatus(id, "MISSED")}
+          onCancel={(id) => handleCancelClick(id)}
+          onDelete={(id) => deleteAppointment(id)}
+          onComment={(id) => { setCommentModal({ id }); setCommentText(""); }}
+        />
+      ) : (
       <div className="overflow-x-auto rounded-xl shadow-sm" style={{ backgroundColor: "#fff" }}>
         <table className="w-full text-left text-sm">
           <thead>
@@ -458,8 +507,9 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
           </tbody>
         </table>
       </div>
+      )}
 
-      {totalPages > 1 && (
+      {viewMode === "table" && totalPages > 1 && (
         <div className="mt-4 flex items-center justify-center gap-3">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}

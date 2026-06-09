@@ -81,6 +81,21 @@ model PatientRecord {
   medicalActs         MedicalAct[]
 }
 
+model ClinicConfig {
+  id           String @id @default("default")
+  workStartAM  Int    @default(9)
+  workEndAM    Int    @default(13)
+  workStartPM  Int    @default(15)
+  workEndPM    Int    @default(19)
+  slotDuration Int    @default(30)
+}
+
+model Holiday {
+  id    String   @id @default(cuid())
+  date  DateTime
+  label String?
+}
+
 model MedicalAct {
   id              String   @id @default(cuid())
   patientRecordId String

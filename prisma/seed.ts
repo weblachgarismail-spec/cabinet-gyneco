@@ -33,6 +33,12 @@ async function main() {
     });
     console.log("Doctor created: doctor / doctor123");
   }
+
+  const existingConfig = await prisma.clinicConfig.findUnique({ where: { id: "default" } });
+  if (!existingConfig) {
+    await prisma.clinicConfig.create({ data: { id: "default" } });
+    console.log("Default clinic config created.");
+  }
 }
 
 main()

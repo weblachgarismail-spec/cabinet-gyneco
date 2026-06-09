@@ -451,6 +451,7 @@
 "users_nav": "المستخدمين",
         "logs_nav": "التتبع",
         "profile_nav": "الملف الشخصي",
+        "settings_nav": "الإعدادات",
         "users_title": "إدارة المستخدمين",
         "create_user": "مستخدم جديد",
         "delete_user_confirm": "حذف هذا المستخدم؟",

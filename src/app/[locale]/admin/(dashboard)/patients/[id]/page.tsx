@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useToast } from "@/components/ui/Toast";
 
 type MedicalAct = {
   id: string;
@@ -38,6 +39,7 @@ export default function PatientDetailPage() {
   const locale = params.locale;
   const router = useRouter();
   const t = useTranslations("admin");
+  const { toast } = useToast();
 
   const [patient, setPatient] = useState<PatientRecord | null>(null);
   const [loading, setLoading] = useState(true);
@@ -91,6 +93,9 @@ export default function PatientDetailPage() {
         const updated = await res.json();
         setPatient((prev) => prev ? { ...prev, ...updated } : prev);
         setShowEditModal(false);
+        toast("success", "Patient mis à jour");
+      } else {
+        toast("error", "Erreur lors de la mise à jour");
       }
     } finally {
       setSaving(false);
@@ -110,6 +115,9 @@ export default function PatientDetailPage() {
         const act = await res.json();
         setPatient((prev) => prev ? { ...prev, medicalActs: [act, ...prev.medicalActs] } : prev);
         setActForm({ actType: "CONSULTATION", actDate: "", description: "", doctorNotes: "", prescribedMeds: "" });
+        toast("success", "Acte médical ajouté");
+      } else {
+        toast("error", "Erreur lors de l'ajout de l'acte");
       }
     } finally {
       setSaving(false);
@@ -122,8 +130,13 @@ export default function PatientDetailPage() {
       const res = await fetch(`/api/admin/patients/${params.id}/acts/${actId}`, { method: "DELETE" });
       if (res.ok) {
         setPatient((prev) => prev ? { ...prev, medicalActs: prev.medicalActs.filter((a) => a.id !== actId) } : prev);
+        toast("success", "Acte médical supprimé");
+      } else {
+        toast("error", "Erreur lors de la suppression");
       }
-    } catch {}
+    } catch {
+      toast("error", "Erreur réseau");
+    }
   };
 
   if (loading) return <div className="py-12 text-center opacity-60">{t("loading")}</div>;
