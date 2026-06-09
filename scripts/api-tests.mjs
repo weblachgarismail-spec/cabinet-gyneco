@@ -1,10 +1,18 @@
 const BASE = "http://127.0.0.1:3000";
 
+const TIMEOUT = 30000;
+
 async function json(url, opts = {}) {
-  const headers = { "Content-Type": "application/json", ...opts.headers };
-  const res = await fetch(url, { headers, ...opts });
-  const body = await res.json().catch(() => null);
-  return { status: res.status, body, headers: res.headers };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT);
+  try {
+    const headers = { "Content-Type": "application/json", ...opts.headers };
+    const res = await fetch(url, { headers, signal: ctrl.signal, ...opts });
+    const body = await res.json().catch(() => null);
+    return { status: res.status, body, headers: res.headers };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 let passed = 0;
@@ -51,7 +59,7 @@ async function main() {
   console.log("API Integration Tests\n");
 
   // Booking
-  const BOOK_DATE = "2026-07-20";
+  const BOOK_DATE = "2026-08-01";
   const BOOK_TIME = "09:00";
 
   await test("POST /api/booking - creates appointment", async () => {
@@ -72,7 +80,7 @@ async function main() {
   });
 
   await test("POST /api/booking - returns 409 on double booking", async () => {
-    const payload = { date: "2026-07-21", time: "10:00", patientName: "First", phone: "0611111111" };
+    const payload = { date: "2026-08-02", time: "10:00", patientName: "First", phone: "0611111111" };
     await json(`${BASE}/api/booking`, { method: "POST", body: JSON.stringify(payload) });
     const { status } = await json(`${BASE}/api/booking`, { method: "POST", body: JSON.stringify(payload) });
     if (status !== 409) throw new Error(`Expected 409, got ${status}`);
@@ -80,7 +88,7 @@ async function main() {
 
   // Slots
   await test("GET /api/slots - returns time slots", async () => {
-    const { status, body } = await json(`${BASE}/api/slots?date=2026-07-25`);
+    const { status, body } = await json(`${BASE}/api/slots?date=2026-08-05`);
     if (status !== 200) throw new Error(`Expected 200, got ${status}`);
     if (!body || !Array.isArray(body.slots)) throw new Error("Expected { slots: [...] }");
   });

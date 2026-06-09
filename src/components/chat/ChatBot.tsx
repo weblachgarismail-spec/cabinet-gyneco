@@ -1,6 +1,6 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState, useRef, useEffect } from "react";
 import { quickActions } from "@/data/chatbot-knowledge";
 
@@ -11,15 +11,10 @@ type Message = {
 
 export function ChatBot() {
   const locale = useLocale();
+  const t = useTranslations("chat");
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "bot",
-      text:
-        locale === "ar"
-          ? "مرحباً! أنا المساعد الافتراضي للعيادة. كيف يمكنني مساعدتك؟"
-          : "Bonjour ! Je suis l'assistant virtuel du cabinet. Comment puis-je vous aider ?",
-    },
+    { role: "bot", text: t("welcome") },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -29,7 +24,7 @@ export function ChatBot() {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = async (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim() || loading) return;
     const userMsg: Message = { role: "user", text: text.trim() };
     setMessages((prev) => [...prev, userMsg]);
@@ -42,51 +37,37 @@ export function ChatBot() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text.trim(), locale }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        const botMsg: Message = { role: "bot", text: data.response };
-        setMessages((prev) => [...prev, botMsg]);
-      }
-    } catch {
+      const data = await res.json();
       setMessages((prev) => [
         ...prev,
-        {
-          role: "bot",
-          text:
-            locale === "ar"
-              ? "عذراً، حدث خطأ. يرجى المحاولة مرة أخرى."
-              : "Désolé, une erreur est survenue. Veuillez réessayer.",
-        },
+        { role: "bot", text: data.response || t("error") },
       ]);
+    } catch {
+      setMessages((prev) => [...prev, { role: "bot", text: t("error") }]);
     } finally {
       setLoading(false);
     }
   };
 
-  const isAr = locale === "ar";
-
   return (
     <>
       {open && (
         <div
-          className="fixed bottom-24 left-6 z-50 flex w-80 flex-col rounded-2xl shadow-2xl"
-          style={{ backgroundColor: "#fff", maxHeight: "500px", height: "500px" }}
+          className="fixed bottom-24 right-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
+          style={{ backgroundColor: "#fff", maxHeight: "500px" }}
         >
-          <div className="flex items-center justify-between rounded-t-2xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
-            <span className="text-sm font-semibold">
-              {isAr ? "المساعد الافتراضي" : "Assistant Virtuel"}
-            </span>
-            <button onClick={() => setOpen(false)} className="text-white/80 hover:text-white">✕</button>
+          <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
+            <span className="font-semibold">{t("title")}</span>
+            <button onClick={() => setOpen(false)} className="text-white/80 hover:text-white">&times;</button>
           </div>
-
-          <div className="flex-1 overflow-y-auto p-3 space-y-3" style={{ scrollbarWidth: "thin" }}>
+          <div className="flex-1 space-y-3 overflow-y-auto p-4" style={{ maxHeight: "350px" }}>
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm leading-relaxed ${
+                  className={`max-w-[80%] whitespace-pre-wrap rounded-xl px-3 py-2 text-sm leading-relaxed ${
                     m.role === "user"
                       ? "text-white"
-                      : ""
+                      : "text-gray-800"
                   }`}
                   style={{
                     backgroundColor: m.role === "user" ? "var(--color-primary, #8B5CF6)" : "#f3f4f6",
@@ -96,69 +77,56 @@ export function ChatBot() {
                 </div>
               </div>
             ))}
-
-            {messages.length === 1 && (
-              <div className="flex flex-wrap gap-2 pt-2">
-                {quickActions.map((qa, i) => (
-                  <button
-                    key={i}
-                    onClick={() => sendMessage(isAr ? qa.query : qa.query)}
-                    className="rounded-full px-3 py-1 text-xs font-medium transition-opacity hover:opacity-80"
-                    style={{ backgroundColor: "#ede9fe", color: "var(--color-primary, #8B5CF6)" }}
-                  >
-                    {isAr ? qa.labelAr : qa.label}
-                  </button>
-                ))}
-              </div>
-            )}
-
             {loading && (
               <div className="flex justify-start">
-                <div className="rounded-2xl bg-gray-100 px-3 py-2 text-sm">
-                  <span className="opacity-50">{isAr ? "جارٍ الكتابة..." : "En train d'écrire..."}</span>
-                </div>
+                <div className="rounded-xl bg-gray-100 px-3 py-2 text-sm text-gray-500">...</div>
               </div>
             )}
-
             <div ref={endRef} />
           </div>
-
+          {messages.length === 1 && (
+            <div className="flex flex-wrap gap-2 border-t px-4 py-3" style={{ borderColor: "#e5e7eb" }}>
+              {quickActions.map((a) => (
+                <button
+                  key={a.query}
+                  onClick={() => send(a.query)}
+                  className="rounded-full px-3 py-1 text-xs transition-opacity hover:opacity-80"
+                  style={{ backgroundColor: "#f3f4f6", color: "#374151" }}
+                >
+                  {locale === "ar" ? a.labelAr : a.label}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="flex items-center gap-2 border-t p-3" style={{ borderColor: "#e5e7eb" }}>
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") sendMessage(input); }}
-              placeholder={isAr ? "اكتب رسالتك..." : "Écrivez votre message..."}
-              className="flex-1 rounded-full border px-3 py-2 text-sm outline-none"
+              onKeyDown={(e) => e.key === "Enter" && send(input)}
+              placeholder={t("placeholder")}
+              className="flex-1 rounded-lg border px-3 py-2 text-sm outline-none"
               style={{ borderColor: "#d1d5db" }}
             />
             <button
-              onClick={() => sendMessage(input)}
-              disabled={loading || !input.trim()}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white disabled:opacity-50"
+              onClick={() => send(input)}
+              disabled={loading}
+              className="rounded-lg px-3 py-2 text-sm text-white disabled:opacity-50"
               style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}
             >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
+              {t("send")}
             </button>
           </div>
         </div>
       )}
-
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 left-6 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110"
+        className="fixed bottom-6 right-20 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110"
         style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}
-        aria-label="Chatbot"
+        aria-label="Chat"
       >
-        {open ? (
-          <span className="text-xl text-white">✕</span>
-        ) : (
-          <svg className="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-        )}
+        <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
       </button>
     </>
   );

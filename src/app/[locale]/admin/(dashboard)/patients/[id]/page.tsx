@@ -149,7 +149,15 @@ export default function PatientDetailPage() {
 
   return (
     <div>
-      <Link href={`/${locale}/admin/patients`} className="mb-4 inline-block text-sm opacity-60 hover:opacity-100">
+      <style>{`
+        @media print {
+          header, footer, .no-print { display: none !important; }
+          body { background: white !important; }
+          .print-only { display: block !important; }
+        }
+        .print-only { display: none; }
+      `}</style>
+      <Link href={`/${locale}/admin/patients`} className="no-print mb-4 inline-block text-sm opacity-60 hover:opacity-100">
         ← {t("back_to_patients")}
       </Link>
 
@@ -161,19 +169,22 @@ export default function PatientDetailPage() {
             {patient.nationalId && <p className="mt-1 text-xs opacity-50">{t("national_id")}: {patient.nationalId}</p>}
             {patient.address && <p className="mt-1 text-xs opacity-50">{t("address")}: {patient.address}</p>}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 no-print">
             <span className="rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-dark)" }}>
               {patient.medicalActs.length} {t("acts_count")}
             </span>
             <button onClick={openEditModal} className="rounded-lg px-3 py-1 text-xs font-medium text-white transition-opacity hover:opacity-90" style={{ backgroundColor: "var(--color-primary)" }}>
               {t("edit")}
             </button>
+            <button onClick={() => window.print()} className="rounded-lg px-3 py-1 text-xs font-medium transition-opacity hover:opacity-90" style={{ backgroundColor: "#f3f4f6", color: "#374151" }}>
+              PDF
+            </button>
           </div>
         </div>
       </div>
 
       <div className="mb-8 grid gap-6 md:grid-cols-2">
-        <div className="rounded-xl p-6 shadow-sm" style={{ backgroundColor: "#fff" }}>
+        <div className="no-print rounded-xl p-6 shadow-sm" style={{ backgroundColor: "#fff" }}>
           <h2 className="mb-4 text-lg font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("add_act")}</h2>
           <div className="space-y-3">
             <select
@@ -274,7 +285,7 @@ export default function PatientDetailPage() {
       </div>
 
       {showEditModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowEditModal(false)}>
+        <div className="no-print fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowEditModal(false)}>
           <div className="w-full max-w-md rounded-xl p-6 shadow-xl" style={{ backgroundColor: "#fff" }} onClick={(e) => e.stopPropagation()}>
             <h3 className="mb-4 text-lg font-semibold" style={{ color: "var(--color-primary-dark)" }}>{t("edit_patient_info")}</h3>
             <div className="space-y-3">

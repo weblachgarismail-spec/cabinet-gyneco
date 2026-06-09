@@ -67,18 +67,54 @@
         ],
         "approach_title": "Ma philosophie",
         "approach_items": [
-            { "icon": "♥", "title": "Bienveillance", "desc": "Chaque patiente est accueillie sans jugement, dans un climat de confiance et de respect mutuel." },
-            { "icon": "✚", "title": "Excellence médicale", "desc": "Une pratique fondée sur les dernières recommandations scientifiques et une formation continue." },
-            { "icon": "♡", "title": "Accompagnement global", "desc": "Suivi personnalisé à chaque étape de la vie, de l'adolescence à la ménopause." },
-            { "icon": "✚", "title": "Confidentialité", "desc": "Un cadre sécurisé et discret où votre intimité est préservée en toutes circonstances." }
+            {
+                "icon": "♥",
+                "title": "Bienveillance",
+                "desc": "Chaque patiente est accueillie sans jugement, dans un climat de confiance et de respect mutuel."
+            },
+            {
+                "icon": "✚",
+                "title": "Excellence médicale",
+                "desc": "Une pratique fondée sur les dernières recommandations scientifiques et une formation continue."
+            },
+            {
+                "icon": "♡",
+                "title": "Accompagnement global",
+                "desc": "Suivi personnalisé à chaque étape de la vie, de l'adolescence à la ménopause."
+            },
+            {
+                "icon": "✚",
+                "title": "Confidentialité",
+                "desc": "Un cadre sécurisé et discret où votre intimité est préservée en toutes circonstances."
+            }
         ],
         "journey_title": "Mon parcours",
         "journey_items": [
-            { "year": "2008", "title": "Doctorat en Médecine", "desc": "Université Hassan II - Faculté de Médecine de Casablanca" },
-            { "year": "2014", "title": "Spécialisation en Gynécologie", "desc": "CHU Mohammed VI - Marrakech" },
-            { "year": "2015", "title": "Installation à El Jadida", "desc": "Ouverture du cabinet avec une vision moderne de la santé féminine" },
-            { "year": "2018", "title": "Diplôme en Échographie", "desc": "Formation approfondie en échographie gynécologique et obstétricale" },
-            { "year": "2025", "title": "Cabinet nouvelle génération", "desc": "Équipement de pointe et téléconsultation intégrée" }
+            {
+                "year": "2008",
+                "title": "Doctorat en Médecine",
+                "desc": "Université Hassan II - Faculté de Médecine de Casablanca"
+            },
+            {
+                "year": "2014",
+                "title": "Spécialisation en Gynécologie",
+                "desc": "CHU Mohammed VI - Marrakech"
+            },
+            {
+                "year": "2015",
+                "title": "Installation à El Jadida",
+                "desc": "Ouverture du cabinet avec une vision moderne de la santé féminine"
+            },
+            {
+                "year": "2018",
+                "title": "Diplôme en Échographie",
+                "desc": "Formation approfondie en échographie gynécologique et obstétricale"
+            },
+            {
+                "year": "2025",
+                "title": "Cabinet nouvelle génération",
+                "desc": "Équipement de pointe et téléconsultation intégrée"
+            }
         ],
         "diplomas_title": "Diplômes et certifications",
         "diplomas": [
@@ -384,7 +420,8 @@
         "comment_for_secretary": "Commentaire pour la secrétaire",
         "comment_placeholder": "Écrivez votre commentaire...",
         "send_comment": "Envoyer",
-        "users_nav": "Utilisateurs",
+        "stats_nav": "Statistiques",
+"users_nav": "Utilisateurs",
         "logs_nav": "Traçabilité",
         "profile_nav": "Profil",
         "users_title": "Gestion des utilisateurs",
@@ -450,7 +487,22 @@
         "guide_export_sql": "L'export SQL produit un script de sauvegarde complet de la base.",
         "guide_import": "L'import permet de restaurer des données depuis un fichier Excel exporté précédemment.",
         "guide_logs_title": "Traçabilité",
-        "guide_logs_view": "Consultez l'historique complet des actions effectuées par tous les utilisateurs. Filtrez par date, utilisateur ou action."
+        "guide_logs_view": "Consultez l'historique complet des actions effectuées par tous les utilisateurs. Filtrez par date, utilisateur ou action.",
+        "stats_title": "Statistiques",
+        "stats_patients": "Patients",
+        "stats_appointments": "Total RDV",
+        "stats_week": "Cette semaine",
+        "stats_by_status": "Répartition par statut",
+        "stats_top_acts": "Actes médicaux les plus fréquents",
+        "stats_recent_patients": "Derniers patients",
+        "stats_recent_appointments": "Derniers rendez-vous",
+        "status_CONFIRMED": "Confirmé",
+        "status_ARRIVED": "Arrivé",
+        "status_CANCELLED": "Annulé",
+        "status_MISSED": "Absent",
+        "status_PENDING": "En attente",
+        "status_POSTPONED": "Reporté",
+        "error": "Une erreur est survenue."
     },
     "booking": {
         "title": "Prendre un rendez-vous",
@@ -516,6 +568,13 @@
         "loading": "Chargement...",
         "error": "Une erreur est survenue",
         "back_home": "Retour à l'accueil"
+    },
+    "chat": {
+        "title": "Assistant virtuel",
+        "welcome": "Bonjour ! Je suis l'assistant virtuel du cabinet. Comment puis-je vous aider ?",
+        "placeholder": "Écrivez votre message...",
+        "send": "Envoyer",
+        "error": "Désolé, une erreur est survenue."
     },
     "footer": {
         "rights": "© 2026 Cabinet Gynécologique El Jadida. Tous droits réservés.",
