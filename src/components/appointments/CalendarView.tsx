@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslations } from "next-intl";
 
 type CalendarAppointment = {
@@ -31,8 +31,6 @@ type Props = {
   onComment: (id: string) => void;
 };
 
-const HOURS = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-
 export function CalendarView({
   appointments, locale, canAct, isDoctor, statusLabels, statusColors,
   loading, onConfirm, onArrived, onMissed, onCancel, onDelete, onComment,
@@ -40,6 +38,20 @@ export function CalendarView({
   const t = useTranslations("admin");
   const today = new Date();
   const [viewDate, setViewDate] = useState(today.toDateString());
+  const [cfg, setCfg] = useState({ workStartAM: 9, workEndAM: 13, workStartPM: 15, workEndPM: 19 });
+
+  useEffect(() => {
+    fetch("/api/admin/settings").then((r) => r.json()).then((d) => {
+      if (d.config) setCfg(d.config);
+    }).catch(() => {});
+  }, []);
+
+  const hours = useMemo(() => {
+    const set = new Set<number>();
+    for (let h = cfg.workStartAM; h < cfg.workEndAM; h++) set.add(h);
+    for (let h = cfg.workStartPM; h < cfg.workEndPM; h++) set.add(h);
+    return Array.from(set).sort((a, b) => a - b);
+  }, [cfg]);
   const [popover, setPopover] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<"day" | "week">("day");
 
@@ -186,7 +198,7 @@ export function CalendarView({
 
       {viewMode === "day" && (
         <div className="rounded-xl shadow-sm" style={{ backgroundColor: "#fff" }}>
-          {HOURS.map((hour) => {
+          {hours.map((hour) => {
             const hourStr = `${hour.toString().padStart(2, "0")}`;
             const apptsAtHour = dayAppts.filter((a) => a.time.startsWith(hourStr));
             const isEmpty = apptsAtHour.length === 0;
