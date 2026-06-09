@@ -12,9 +12,19 @@ export async function POST(request: NextRequest) {
   if (role === "DOCTOR") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
 
   try {
-    const { patientName, phone, email, city, notes, date, time, nationalId, consultationType } = await request.json();
+    const { patientName, phone, email, city, notes, date, time, nationalId, consultationType, force } = await request.json();
     if (!patientName || !phone) {
       return NextResponse.json({ error: "patientName and phone are required" }, { status: 400 });
+    }
+
+    if (!force) {
+      const existing = await prisma.patientRecord.findFirst({
+        where: { phone, deletedAt: null },
+        select: { id: true, patientName: true, phone: true },
+      });
+      if (existing) {
+        return NextResponse.json({ error: "DUPLICATE_PHONE", duplicate: existing }, { status: 409 });
+      }
     }
 
     const appt = await prisma.appointment.create({

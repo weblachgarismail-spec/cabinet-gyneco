@@ -33,9 +33,19 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { patientName, phone, email, city } = body;
+    const { patientName, phone, email, city, force } = body;
     if (!patientName || !phone) {
       return NextResponse.json({ error: "patientName and phone are required" }, { status: 400 });
+    }
+
+    if (!force) {
+      const existing = await prisma.patientRecord.findFirst({
+        where: { phone, deletedAt: null },
+        select: { id: true, patientName: true, phone: true },
+      });
+      if (existing) {
+        return NextResponse.json({ error: "DUPLICATE_PHONE", duplicate: existing }, { status: 409 });
+      }
     }
 
     const patient = await prisma.patientRecord.create({

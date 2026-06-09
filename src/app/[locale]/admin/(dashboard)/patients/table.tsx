@@ -76,15 +76,18 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
   const pagedPatients = filteredItems.slice((safePatientPage - 1) * PAGE_SIZE, safePatientPage * PAGE_SIZE);
   const pagedTrash = filteredTrash.slice((safeTrashPage - 1) * PAGE_SIZE, safeTrashPage * PAGE_SIZE);
 
+  const [duplicateWarn, setDuplicateWarn] = useState<{ patientName: string; phone: string } | null>(null);
+
   const resetCreateModal = () => {
     setShowCreateModal(false);
     setSelectedAppt("");
+    setDuplicateWarn(null);
   };
 
-  const createPatient = async () => {
+  const createPatient = async (force = false) => {
     const appt = availableAppointments.find((a) => a.id === selectedAppt);
     if (!appt) return;
-    const data = { patientName: appt.patientName, phone: appt.phone, email: appt.email || undefined, city: appt.city || undefined };
+    const data = { patientName: appt.patientName, phone: appt.phone, email: appt.email || undefined, city: appt.city || undefined, force };
     setLoading("new");
     try {
       const res = await fetch("/api/admin/patients", {
@@ -96,6 +99,11 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
         const created = await res.json();
         setItems((prev) => [{ ...created, _count: { medicalActs: 0 } }, ...prev]);
         resetCreateModal();
+      } else if (res.status === 409) {
+        const err = await res.json();
+        if (err.error === "DUPLICATE_PHONE") {
+          setDuplicateWarn(err.duplicate);
+        }
       }
     } finally {
       setLoading(null);
@@ -379,12 +387,32 @@ export function PatientsTable({ patients, trashedPatients, confirmedAppointments
                 {t("cancel")}
               </button>
               <button
-                onClick={createPatient}
+                onClick={() => createPatient()}
                 disabled={loading === "new" || !selectedAppt}
                 className="rounded-lg px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
                 style={{ backgroundColor: "var(--color-primary)" }}
               >
                 {t("create")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {duplicateWarn && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50" onClick={() => setDuplicateWarn(null)}>
+          <div className="w-full max-w-sm rounded-xl p-6 shadow-xl" style={{ backgroundColor: "#fff" }} onClick={(e) => e.stopPropagation()}>
+            <h3 className="mb-2 text-lg font-semibold" style={{ color: "#f59e0b" }}>⚠️ Patient existant</h3>
+            <p className="mb-4 text-sm opacity-80">
+              Un patient avec ce numéro existe déjà : <strong>{duplicateWarn.patientName}</strong> ({duplicateWarn.phone}).
+              Voulez-vous quand même créer un nouveau dossier ?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setDuplicateWarn(null)} className="rounded-lg px-4 py-2 text-sm font-medium opacity-60 hover:opacity-100">
+                Annuler
+              </button>
+              <button onClick={() => { setDuplicateWarn(null); createPatient(true); }} className="rounded-lg px-4 py-2 text-sm font-medium text-white" style={{ backgroundColor: "#f59e0b" }}>
+                Créer quand même
               </button>
             </div>
           </div>

@@ -244,14 +244,16 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
     setPostponeDate("");
   };
 
-  const addWalkin = async () => {
+  const [walkinDupWarn, setWalkinDupWarn] = useState<{ patientName: string; phone: string } | null>(null);
+
+  const addWalkin = async (force = false) => {
     if (!walkinForm.patientName || !walkinForm.phone) return;
     setLoading("walkin");
     try {
       const res = await fetch("/api/admin/appointments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(walkinForm),
+        body: JSON.stringify({ ...walkinForm, force }),
       });
       if (res.ok) {
         const created = await res.json();
@@ -260,6 +262,13 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         setWalkinForm({ patientName: "", phone: "", email: "", city: "", date: "", time: "", nationalId: "", consultationType: "" });
         toast("success", t("toast_walkin_added"));
         router.refresh();
+      } else if (res.status === 409) {
+        const err = await res.json();
+        if (err.error === "DUPLICATE_PHONE") {
+          setWalkinDupWarn(err.duplicate);
+        } else {
+          toast("error", t("toast_walkin_error"));
+        }
       } else {
         toast("error", t("toast_walkin_error"));
       }
@@ -676,8 +685,28 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
               <button onClick={() => setWalkinModal(false)} className="rounded-lg px-4 py-2 text-sm font-medium opacity-60 hover:opacity-100">
                 {t("cancel")}
               </button>
-              <button onClick={addWalkin} disabled={loading === "walkin" || !walkinForm.patientName || !walkinForm.phone} className="rounded-lg px-4 py-2 text-sm font-medium text-white" style={{ backgroundColor: "var(--color-primary)" }}>
+              <button onClick={() => addWalkin()} disabled={loading === "walkin" || !walkinForm.patientName || !walkinForm.phone} className="rounded-lg px-4 py-2 text-sm font-medium text-white" style={{ backgroundColor: "var(--color-primary)" }}>
                 {t("walkin_confirm")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {walkinDupWarn && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50" onClick={() => setWalkinDupWarn(null)}>
+          <div className="w-full max-w-sm rounded-xl p-6 shadow-xl" style={{ backgroundColor: "#fff" }} onClick={(e) => e.stopPropagation()}>
+            <h3 className="mb-2 text-lg font-semibold" style={{ color: "#f59e0b" }}>⚠️ Patient existant</h3>
+            <p className="mb-4 text-sm opacity-80">
+              Un patient avec ce numéro existe déjà : <strong>{walkinDupWarn.patientName}</strong> ({walkinDupWarn.phone}).
+              Voulez-vous quand même ajouter ce rendez-vous ?
+            </p>
+            <div className="flex justify-end gap-3">
+              <button onClick={() => setWalkinDupWarn(null)} className="rounded-lg px-4 py-2 text-sm font-medium opacity-60 hover:opacity-100">
+                Annuler
+              </button>
+              <button onClick={() => { setWalkinDupWarn(null); addWalkin(true); }} className="rounded-lg px-4 py-2 text-sm font-medium text-white" style={{ backgroundColor: "#f59e0b" }}>
+                Ajouter quand même
               </button>
             </div>
           </div>
