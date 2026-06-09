@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { CalendarPicker } from "@/components/booking/CalendarPicker";
 import { TimeSlotPicker } from "@/components/booking/TimeSlotPicker";
 
@@ -76,7 +76,7 @@ export default function BookingPage() {
     } finally {
       setSubmitting(false);
     }
-  }, [name, phone, email, city, notes, date, time, t, router, locale]);
+  }, [name, phone, email, city, notes, consent, date, time, t, router, locale]);
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-16">
