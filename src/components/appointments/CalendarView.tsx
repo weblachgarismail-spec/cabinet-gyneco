@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 
 type CalendarAppointment = {
   id: string;
@@ -36,6 +37,7 @@ export function CalendarView({
   appointments, locale, canAct, isDoctor, statusLabels, statusColors,
   loading, onConfirm, onArrived, onMissed, onCancel, onDelete, onComment,
 }: Props) {
+  const t = useTranslations("admin");
   const today = new Date();
   const [viewDate, setViewDate] = useState(today.toDateString());
   const [popover, setPopover] = useState<string | null>(null);
@@ -127,22 +129,22 @@ export function CalendarView({
             <div className="mb-1 px-1 text-[10px] font-medium opacity-60">{statusLabels[a.status] || a.status}</div>
             <div className="flex flex-col gap-1">
               {canAct && a.status === "PENDING" && (
-                <button onClick={() => { onConfirm(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-green-500 px-2 py-1 text-xs font-medium text-white">Confirmer</button>
+                <button onClick={() => { onConfirm(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-green-500 px-2 py-1 text-xs font-medium text-white">{t("calendar_confirm")}</button>
               )}
               {canAct && a.status === "CONFIRMED" && (
-                <button onClick={() => { onArrived(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white">Arrivé(e)</button>
+                <button onClick={() => { onArrived(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-blue-500 px-2 py-1 text-xs font-medium text-white">{t("calendar_arrived")}</button>
               )}
               {canAct && a.status === "CONFIRMED" && (
-                <button onClick={() => { onMissed(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-red-500 px-2 py-1 text-xs font-medium text-white">Absent</button>
+                <button onClick={() => { onMissed(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-red-500 px-2 py-1 text-xs font-medium text-white">{t("calendar_missed")}</button>
               )}
               {canAct && a.status !== "CANCELLED" && a.status !== "ARRIVED" && a.status !== "MISSED" && a.status !== "POSTPONED" && (
-                <button onClick={() => { onCancel(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-orange-400 px-2 py-1 text-xs font-medium text-white">Annuler</button>
+                <button onClick={() => { onCancel(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-orange-400 px-2 py-1 text-xs font-medium text-white">{t("calendar_cancel")}</button>
               )}
               {canAct && (
-                <button onClick={() => { onDelete(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-red-600 px-2 py-1 text-xs font-medium text-white">Supprimer</button>
+                <button onClick={() => { onDelete(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-red-600 px-2 py-1 text-xs font-medium text-white">{t("calendar_delete")}</button>
               )}
               {isDoctor && (
-                <button onClick={() => { onComment(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-purple-500 px-2 py-1 text-xs font-medium text-white">Commentaire</button>
+                <button onClick={() => { onComment(a.id); setPopover(null); }} disabled={loading === a.id} className="rounded bg-purple-500 px-2 py-1 text-xs font-medium text-white">{t("calendar_comment")}</button>
               )}
             </div>
           </div>
@@ -150,12 +152,6 @@ export function CalendarView({
       </div>
     );
   };
-
-  const weekDayNames = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
-  if (locale === "ar") {
-    const ar = ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"];
-    weekDayNames.forEach((_, i) => { weekDayNames[i] = ar[i]; });
-  }
 
   return (
     <div>
@@ -166,14 +162,14 @@ export function CalendarView({
             className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "day" ? "text-white" : "opacity-60 hover:opacity-100"}`}
             style={{ backgroundColor: viewMode === "day" ? "var(--color-primary)" : "#f3f4f6" }}
           >
-            Jour
+            {t("calendar_day")}
           </button>
           <button
             onClick={() => setViewMode("week")}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "week" ? "text-white" : "opacity-60 hover:opacity-100"}`}
             style={{ backgroundColor: viewMode === "week" ? "var(--color-primary)" : "#f3f4f6" }}
           >
-            Semaine
+            {t("calendar_week")}
           </button>
         </div>
         <div className="flex items-center gap-3">
@@ -183,7 +179,7 @@ export function CalendarView({
           </span>
           <button onClick={goNext} className="rounded-lg px-3 py-1.5 text-sm opacity-60 hover:opacity-100" style={{ backgroundColor: "#f3f4f6" }}>→</button>
           <button onClick={goToday} className="rounded-lg px-3 py-1.5 text-xs font-medium opacity-60 hover:opacity-100" style={{ backgroundColor: "#f3f4f6" }}>
-            Aujourd'hui
+            {t("calendar_today")}
           </button>
         </div>
       </div>

@@ -143,10 +143,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
               : a
           )
         );
-        toast("success", `Statut mis à jour → ${status}`);
+        toast("success", t("toast_status_updated", { status: t(status.toLowerCase()) }));
         router.refresh();
       } else {
-        toast("error", "Erreur lors de la mise à jour");
+        toast("error", t("toast_update_error"));
       }
     } finally {
       setLoading(null);
@@ -175,10 +175,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       });
       if (res.ok) {
         setItems((prev) => prev.filter((a) => a.id !== id));
-        toast("success", "Rendez-vous supprimé");
+        toast("success", t("toast_deleted"));
         router.refresh();
       } else {
-        toast("error", "Erreur lors de la suppression");
+        toast("error", t("toast_delete_error"));
       }
     } finally {
       setLoading(null);
@@ -197,10 +197,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
       if (res.ok) {
         setCommentModal(null);
         setCommentText("");
-        toast("success", "Commentaire envoyé");
+        toast("success", t("toast_comment_sent"));
         router.refresh();
       } else {
-        toast("error", "Erreur lors de l'envoi");
+        toast("error", t("toast_comment_error"));
       }
     } finally {
       setLoading(null);
@@ -258,10 +258,10 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
         setItems((prev) => [created, ...prev]);
         setWalkinModal(false);
         setWalkinForm({ patientName: "", phone: "", email: "", city: "", date: "", time: "", nationalId: "", consultationType: "" });
-        toast("success", "Patient ajouté sans RDV");
+        toast("success", t("toast_walkin_added"));
         router.refresh();
       } else {
-        toast("error", "Erreur lors de l'ajout");
+        toast("error", t("toast_walkin_error"));
       }
     } finally {
       setLoading(null);
@@ -331,14 +331,14 @@ export function AdminAppointmentsTable({ appointments, locale, now, userRole }: 
             className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "table" ? "text-white" : "opacity-60 hover:opacity-100"}`}
             style={{ backgroundColor: viewMode === "table" ? "var(--color-primary)" : "#f3f4f6" }}
           >
-            📋 Tableau
+            {t("view_table")}
           </button>
           <button
             onClick={() => setViewMode("calendar")}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium ${viewMode === "calendar" ? "text-white" : "opacity-60 hover:opacity-100"}`}
             style={{ backgroundColor: viewMode === "calendar" ? "var(--color-primary)" : "#f3f4f6" }}
           >
-            📅 Calendrier
+            {t("view_calendar")}
           </button>
         </div>
         {canAct && (

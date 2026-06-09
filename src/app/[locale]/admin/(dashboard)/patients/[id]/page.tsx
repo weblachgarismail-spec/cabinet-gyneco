@@ -93,9 +93,9 @@ export default function PatientDetailPage() {
         const updated = await res.json();
         setPatient((prev) => prev ? { ...prev, ...updated } : prev);
         setShowEditModal(false);
-        toast("success", "Patient mis à jour");
+        toast("success", t("toast_patient_updated"));
       } else {
-        toast("error", "Erreur lors de la mise à jour");
+        toast("error", t("toast_update_error"));
       }
     } finally {
       setSaving(false);
@@ -115,9 +115,9 @@ export default function PatientDetailPage() {
         const act = await res.json();
         setPatient((prev) => prev ? { ...prev, medicalActs: [act, ...prev.medicalActs] } : prev);
         setActForm({ actType: "CONSULTATION", actDate: "", description: "", doctorNotes: "", prescribedMeds: "" });
-        toast("success", "Acte médical ajouté");
+        toast("success", t("toast_act_added"));
       } else {
-        toast("error", "Erreur lors de l'ajout de l'acte");
+        toast("error", t("toast_act_add_error"));
       }
     } finally {
       setSaving(false);
@@ -130,12 +130,12 @@ export default function PatientDetailPage() {
       const res = await fetch(`/api/admin/patients/${params.id}/acts/${actId}`, { method: "DELETE" });
       if (res.ok) {
         setPatient((prev) => prev ? { ...prev, medicalActs: prev.medicalActs.filter((a) => a.id !== actId) } : prev);
-        toast("success", "Acte médical supprimé");
+        toast("success", t("toast_act_deleted"));
       } else {
-        toast("error", "Erreur lors de la suppression");
+        toast("error", t("toast_delete_error"));
       }
     } catch {
-      toast("error", "Erreur réseau");
+      toast("error", t("toast_network_error"));
     }
   };
 
