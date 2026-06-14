@@ -4,16 +4,16 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - 'android/**'
-      - '.github/workflows/build-android.yml'
+
+env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Java 17
@@ -25,25 +25,14 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Accept licenses (cmdline-tools)
-        run: |
-          if [ -f "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" ]; then
-            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
-          elif [ -f "$ANDROID_HOME/tools/bin/sdkmanager" ]; then
-            yes | "$ANDROID_HOME/tools/bin/sdkmanager" --licenses || true
-          fi
+      - name: Accept licenses
+        run: yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm install
+      - name: Create out dir
+        run: mkdir -p out
 
       - name: Sync Capacitor
-        run: npx cap sync android
+        run: npx @capacitor/cli sync android
 
       - name: Build APK
         run: |
