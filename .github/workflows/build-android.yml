@@ -32,6 +32,12 @@ jobs:
       - name: Install npm deps
         run: npm install
 
+      - name: Create out dir
+        run: mkdir -p out
+
+      - name: Sync Capacitor
+        run: npx --no-install @capacitor/cli sync android
+
       - name: Build APK
         run: |
           cd android
