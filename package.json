@@ -11,12 +11,19 @@
     "test:headed": "playwright test --headed",
     "test:api": "node scripts/api-tests.mjs",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:setup": "npx prisma migrate dev && npx tsx prisma/seed.ts"
+    "db:setup": "npx prisma migrate dev && npx tsx prisma/seed.ts",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android",
+    "cap:build": "npx cap copy android && cd android && .\\gradlew.bat assembleDebug",
+    "cap:dev": "npx cap copy android && npx cap run android"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.0",
+    "@capacitor/cli": "^8.4.0",
+    "@capacitor/core": "^8.4.0",
     "@prisma/client": "^6.0.0",
     "@sendgrid/mail": "^8.1.6",
     "@sentry/nextjs": "^10.56.0",
