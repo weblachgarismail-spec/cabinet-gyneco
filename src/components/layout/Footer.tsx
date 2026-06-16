@@ -20,6 +20,7 @@ export async function Footer({ locale }: Props) {
         <div className="mb-6 flex justify-center gap-6">
           <Link href="/legal" className="opacity-60 underline transition-opacity hover:opacity-100">{t("legal")}</Link>
           <Link href="/privacy" className="opacity-60 underline transition-opacity hover:opacity-100">{t("privacy")}</Link>
+          <Link href="/gestion" className="opacity-40 underline transition-opacity hover:opacity-80 text-xs">Gestion</Link>
         </div>
         <p className="opacity-60">{t("rights")}</p>
         <p className="mt-2 font-semibold opacity-80">{t("emergency")}</p>
