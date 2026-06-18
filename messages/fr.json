@@ -406,6 +406,7 @@
         "consultation_type_echo": "Échographie",
         "consultation_type_follow_up": "Suivi",
         "consultation_type_urgent": "Urgence",
+        "administration": "Administration",
         "data_nav": "Données",
         "data_title": "Gestion des données",
         "export_data": "Exporter la base de données",
