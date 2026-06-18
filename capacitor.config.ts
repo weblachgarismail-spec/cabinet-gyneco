@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'out',
   server: {
     // Dev: http://localhost:3000 — Prod: remplacer par l'URL Vercel
-    url: 'https://gynecologue-app-b2er.vercel.app',
+    url: 'https://gynecologue-app-b2er.vercel.app/fr/gestion',
     cleartext: true,
   },
   android: {
