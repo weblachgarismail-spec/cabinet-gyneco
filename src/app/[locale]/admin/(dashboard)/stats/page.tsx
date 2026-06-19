@@ -83,7 +83,7 @@ export default function StatsPage() {
             {data.topActTypes.map((act) => (
               <div key={act.actType}>
                 <div className="mb-1 flex justify-between text-sm">
-                  <span>{t(`act_${act.actType}`)}</span>
+                  <span>{t(`act_${act.actType.toLowerCase()}`)}</span>
                   <span className="font-semibold">{act.count}</span>
                 </div>
                 <div className="h-2 w-full rounded-full" style={{ backgroundColor: "#f3f4f6" }}>
