@@ -11,7 +11,7 @@
     },
     "home": {
         "title": "Cabinet Gynécologique",
-        "subtitle": "Dr. [Nom] - Gynécologue Obstétricienne à [ville]",
+        "subtitle": "Dr. [Nom] - Gynécologue Obstétricienne à Salé",
         "description": "Soins gynécologiques de qualité dans un cadre chaleureux et professionnel.",
         "cta_booking": "Prendre un rendez-vous",
         "cta_contact": "Nous contacter",
@@ -54,16 +54,16 @@
         "services_title": "Nos Services",
         "services_desc": "Des soins complets pour la santé des femmes, de l'adolescence à la ménopause.",
         "cta_section_title": "Prête pour votre prochain rendez-vous ?",
-        "cta_section_desc": "Réservez dès maintenant une consultation dans notre cabinet à [ville]."
+        "cta_section_desc": "Réservez dès maintenant une consultation dans notre cabinet à Salé."
     },
     "about": {
         "title": "À propos du Dr. [Nom]",
-        "subtitle": "Gynécologue obstétricienne à [ville]",
+        "subtitle": "Gynécologue obstétricienne à Salé",
         "photo_alt": "Photo du Dr. [Nom]",
         "paragraphs": [
             "Le Dr. [Nom] est gynécologue obstétricienne diplômée de la Faculté de Médecine de Casablanca, avec plus de 15 ans d'expérience en cabinet et en milieu hospitalier.",
             "Passionnée par la santé des femmes, elle offre des soins complets allant de l'adolescence à la ménopause, avec une approche fondée sur l'écoute, le respect et la confidentialité.",
-            "Le cabinet est situé au cœur d'[ville], dans un espace moderne et accessible."
+            "Le cabinet est situé au cœur d'Salé, dans un espace moderne et accessible."
         ],
         "approach_title": "Ma philosophie",
         "approach_items": [
@@ -102,7 +102,7 @@
             },
             {
                 "year": "2015",
-                "title": "Installation à [ville]",
+                "title": "Installation à Salé",
                 "desc": "Ouverture du cabinet avec une vision moderne de la santé féminine"
             },
             {
@@ -124,7 +124,7 @@
         ],
         "languages": "Langues parlées : Français, Arabe",
         "cta_title": "Prête à me rencontrer ?",
-        "cta_desc": "Prenez rendez-vous dès aujourd'hui pour une consultation personnalisée dans mon cabinet à [ville]."
+        "cta_desc": "Prenez rendez-vous dès aujourd'hui pour une consultation personnalisée dans mon cabinet à Salé."
     },
     "services": {
         "title": "Nos Services",
@@ -284,7 +284,7 @@
     "contact": {
         "title": "Nous contacter",
         "address_title": "Adresse",
-        "address": "Bureau XYZ, Avenue Mohammed V, [ville] 24000",
+        "address": "Bureau XYZ, Avenue Mohammed V, Salé 24000",
         "phone_title": "Téléphone",
         "phone": "+212 5XX-XXXXXX",
         "email_title": "Email",
@@ -580,7 +580,7 @@
         "title": "Mentions légales",
         "editor_title": "Éditeur du site",
         "editor_name": "Dr. [Nom] - Gynécologue Obstétricienne",
-        "editor_address": "[Adresse du cabinet], [ville], Maroc",
+        "editor_address": "[Adresse du cabinet], Salé, Maroc",
         "editor_phone": "Tél : +212 5XX-XXXXXX",
         "editor_email": "Email : contact@cabinet-gyneco.ma",
         "host_title": "Hébergement",
@@ -595,7 +595,7 @@
         "title": "Politique de confidentialité",
         "updated": "Dernière mise à jour : juin 2026",
         "controller_title": "Responsable du traitement",
-        "controller_text": "Le cabinet gynécologique situé à [ville] est responsable des données collectées via ce site.",
+        "controller_text": "Le cabinet gynécologique situé à Salé est responsable des données collectées via ce site.",
         "data_title": "Données collectées",
         "data_text": "Nous collectons uniquement les données nécessaires à la prise de rendez-vous : nom, prénom, numéro de téléphone, email (optionnel), ville et motif de consultation. Ces données sont stockées de manière sécurisée.",
         "purpose_title": "Finalité du traitement",
@@ -607,7 +607,7 @@
         "security_title": "Sécurité",
         "security_text": "Les données sont transmises via HTTPS et stockées sur des serveurs sécurisés (Neon / Vercel). L'accès à l'interface d'administration est protégé par mot de passe et limité au personnel autorisé.",
         "contact_title": "Nous contacter",
-        "contact_text": "Cabinet Gynécologique [ville]\nTél : +212 5XX-XXXXXX\nEmail : contact@cabinet-gyneco.ma"
+        "contact_text": "Cabinet Gynécologique Salé\nTél : +212 5XX-XXXXXX\nEmail : contact@cabinet-gyneco.ma"
     },
     "common": {
         "loading": "Chargement...",
@@ -622,7 +622,7 @@
         "error": "Désolé, une erreur est survenue."
     },
     "footer": {
-        "rights": "© 2026 Cabinet Gynécologique [ville]. Tous droits réservés.",
+        "rights": "© 2026 Cabinet Gynécologique Salé. Tous droits réservés.",
         "emergency": "Urgence : Appelez le +212 5XX-XXXXXX",
         "legal": "Mentions légales",
         "privacy": "Confidentialité"
