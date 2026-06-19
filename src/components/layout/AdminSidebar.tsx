@@ -50,7 +50,18 @@ const icons = {
 
 type LinkDef = { href: string; label: string; icon: React.ReactNode };
 
-export function AdminSidebar() {
+type Props = {
+  clinicName?: string;
+  logoSvg?: React.ReactNode;
+};
+
+const defaultLogo = (
+  <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "var(--color-primary)" }}>
+    <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
+  </svg>
+);
+
+export function AdminSidebar({ clinicName, logoSvg }: Props) {
   const pathname = usePathname();
   const currentLocale = useLocale();
   const { data: session, status } = useSession();
@@ -98,10 +109,8 @@ export function AdminSidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col" style={{ color: "var(--color-text)" }}>
       <div className="flex items-center gap-2 border-b px-4 py-4" style={{ borderColor: "oklch(88% 0.01 190)" }}>
-        <svg viewBox="0 0 24 24" className="h-6 w-6 anim-tooth-glow" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ color: "var(--color-primary)" }}>
-          <path d="M12 3C8.5 3 6 5.5 6 9c0 1.5.5 3 1 4.5L8.5 20c.3.9 1 1.5 1.8 1.5h3.4c.8 0 1.5-.6 1.8-1.5l1.5-6.5c.5-1.5 1-3 1-4.5 0-3.5-2.5-6-6-6z"/>
-        </svg>
-        <span className="text-sm font-semibold">Cabinet Dentaire</span>
+        {logoSvg ?? defaultLogo}
+        <span className="text-sm font-semibold">{clinicName || "Cabinet"}</span>
       </div>
 
       <div className="flex items-center gap-2 border-b px-4 py-2.5 text-xs" style={{ borderColor: "oklch(88% 0.01 190)" }}>
@@ -154,23 +163,19 @@ export function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile overlay */}
       {open && (
         <div className="fixed inset-0 z-40 bg-black/30 md:hidden" onClick={() => setOpen(false)} />
       )}
 
-      {/* Mobile sidebar drawer */}
       <aside className={`fixed inset-y-0 z-50 w-64 transform transition-transform duration-300 md:hidden ${isRtl ? "right-0" : "left-0"} ${open ? "translate-x-0" : isRtl ? "translate-x-full" : "-translate-x-full"}`}
         style={{ backgroundColor: "oklch(100% 0 0 / 0.98)", backdropFilter: "blur(16px)", borderRight: "1px solid oklch(88% 0.01 190)" }}>
         {sidebarContent}
       </aside>
 
-      {/* Desktop sidebar */}
       <aside className="hidden md:flex md:w-60 md:flex-col md:border-r" style={{ borderColor: "oklch(88% 0.01 190)", backgroundColor: "oklch(98% 0.01 190 / 0.5)" }}>
         <div className="flex h-screen flex-col sticky top-0">{sidebarContent}</div>
       </aside>
 
-      {/* Mobile hamburger */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed left-4 top-3 z-50 rounded-lg p-2 shadow-lg md:hidden"
