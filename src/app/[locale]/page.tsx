@@ -50,12 +50,7 @@ export default async function HomePage({ params }: Props) {
           <p className="anim-fade-in-up anim-delay-2 mx-auto mb-10 max-w-2xl leading-relaxed opacity-70">
             {t("description")}
           </p>
-          <div className="anim-fade-in-up anim-delay-3 flex flex-wrap justify-center gap-4">
-            <BookingModal label={t("cta_booking")} className="btn-primary text-base" icon={<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>} />
-            <Link href={`/${locale}/contact`} className="btn-outline text-base">
-              {t("cta_contact")}
-            </Link>
-          </div>
+
         </div>
       </section>
 
