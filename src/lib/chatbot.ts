@@ -51,7 +51,7 @@ function getDefault(locale: string): Intent {
 }
 
 function matchIntent(message: string, locale: string, lastIntentId: string | null): Intent {
-  if (isFollowUp(message, lastIntentId)) {
+  if (lastIntentId && isFollowUp(message, lastIntentId)) {
     const detailId = DETAILS_MAP[lastIntentId];
     if (detailId) {
       const detail = intents.find((i) => i.id === detailId);
