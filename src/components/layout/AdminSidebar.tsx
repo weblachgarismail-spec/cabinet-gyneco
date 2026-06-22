@@ -48,7 +48,7 @@ const icons = {
   ),
 };
 
-type LinkDef = { href: string; label: string; icon: React.ReactNode };
+type LinkDef = { href: string; label: string; icon: React.ReactNode; disabled?: boolean };
 
 type Props = {
   clinicName?: string;
@@ -76,7 +76,7 @@ export function AdminSidebar({ clinicName, logoSvg }: Props) {
     {
       links: [
         { href: "/admin/appointments", label: t("appointments_title"), icon: icons.appointments },
-        { href: "/admin/patients", label: t("patients_title"), icon: icons.patients },
+        { href: "/admin/patients", label: t("patients_title"), icon: icons.patients, disabled: true },
       ],
     },
     {
@@ -128,6 +128,19 @@ export function AdminSidebar({ clinicName, logoSvg }: Props) {
             )}
             {section.links.map((link) => {
               const active = isActive(link.href);
+              if (link.disabled) {
+                return (
+                  <div
+                    key={link.href}
+                    className="flex cursor-not-allowed items-center gap-3 rounded-lg px-2 py-2 text-sm opacity-30"
+                    title={t("feature_disabled")}
+                  >
+                    <span>{link.icon}</span>
+                    <span>{link.label}</span>
+                    <span className="ml-auto text-[0.6rem] uppercase tracking-wider opacity-60">{t("disabled")}</span>
+                  </div>
+                );
+              }
               return (
                 <Link
                   key={link.href}
