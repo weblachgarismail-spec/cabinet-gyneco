@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link, usePathname } from "@/navigation";
+import BookingModal from "@/components/BookingModal";
 
 type Props = { navLabels: Record<string, string> };
 
@@ -16,6 +17,7 @@ export function Header({ navLabels }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const targetLocale = currentLocale === "fr" ? "ar" : "fr";
+  const bookingBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -50,6 +52,17 @@ export function Header({ navLabels }: Props) {
         <nav className={`${mobileOpen ? "block" : "hidden"} absolute left-0 right-0 top-full z-50 border-t p-4 shadow-lg md:static md:flex md:items-center md:gap-1 md:border-none md:p-0 md:shadow-none`}
           style={{ backgroundColor: "oklch(100% 0 0 / 0.95)", backdropFilter: "blur(12px)" }}>
           {publicKeys.map((key) => (
+            key === "booking" ? (
+              <button
+                key={key}
+                ref={bookingBtnRef}
+                className="block rounded-lg px-3 py-2 text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
+                style={{ color: "var(--color-text)" }}
+                onClick={() => setMobileOpen(false)}
+              >
+                {navLabels[key]}
+              </button>
+            ) : (
             <Link
               key={key}
               href={key === "home" ? "/" : `/${key}`}
@@ -59,6 +72,7 @@ export function Header({ navLabels }: Props) {
             >
               {navLabels[key]}
             </Link>
+            )
           ))}
           <Link
             href={pathname}
@@ -77,6 +91,7 @@ export function Header({ navLabels }: Props) {
           </svg>
         </button>
       </div>
+      <BookingModal triggerRef={bookingBtnRef} />
     </header>
   );
 }

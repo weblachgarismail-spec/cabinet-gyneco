@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import BookingModal from "@/components/BookingModal";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -37,11 +38,8 @@ export default async function HomePage({ params }: Props) {
             {t("description")}
           </p>
           <div className="anim-fade-in-up anim-delay-3 flex flex-wrap justify-center gap-4">
-            <Link href={locale === "fr" ? "/booking" : `/${locale}/booking`} className="btn-primary text-base">
-              {t("cta_booking")}
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-            </Link>
-            <Link href={locale === "fr" ? "/contact" : `/${locale}/contact`} className="btn-outline text-base">
+            <BookingModal label={t("cta_booking")} className="btn-primary text-base" icon={<svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>} />
+            <Link href={`/${locale}/contact`} className="btn-outline text-base">
               {t("cta_contact")}
             </Link>
           </div>
@@ -133,13 +131,11 @@ export default async function HomePage({ params }: Props) {
         <div className="relative mx-auto max-w-xl">
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>{t("cta_section_title")}</h2>
           <p className="mb-8 text-lg opacity-70">{t("cta_section_desc")}</p>
-          <Link
-            href={locale === "fr" ? "/booking" : `/${locale}/booking`}
+          <BookingModal
+            label={t("cta_booking")}
             className="btn-primary text-lg"
-          >
-            {t("cta_booking")}
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </Link>
+            icon={<svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>}
+          />
         </div>
       </section>
     </div>

@@ -573,6 +573,8 @@
         "form_consent": "J'accepte la",
         "form_consent_link": "politique de confidentialité",
         "form_consent_error": "Vous devez accepter la politique de confidentialité",
+        "form_date_error": "Veuillez sélectionner une date",
+        "callback_notice": "Nous vous rappellerons pour confirmer votre rendez-vous.",
         "confirm_title": "Rendez-vous confirmé !",
         "confirm_msg": "Votre rendez-vous du {date} à {time} a été enregistré. Vous recevrez une confirmation par téléphone.",
         "confirm_back": "Retour à l'accueil",

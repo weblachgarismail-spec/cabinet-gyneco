@@ -191,6 +191,8 @@
         "form_consent": "أوافق على",
         "form_consent_link": "سياسة الخصوصية",
         "form_consent_error": "يجب الموافقة على سياسة الخصوصية",
+        "form_date_error": "يرجى اختيار تاريخ",
+        "callback_notice": "سنتصل بك لتأكيد موعدك.",
         "confirm_title": "تم تأكيد الموعد!",
         "confirm_msg": "تم تسجيل موعدك في {date} الساعة {time}. سيتم تأكيده عبر الاتصال الهاتفي.",
         "confirm_back": "العودة إلى الرئيسية",
