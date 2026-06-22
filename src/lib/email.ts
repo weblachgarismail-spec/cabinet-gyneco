@@ -6,7 +6,7 @@ type ConfirmationParams = {
   to: string;
   patientName: string;
   date: string;
-  time: string;
+  time?: string;
 };
 
 export async function sendConfirmationEmail({ to, patientName, date, time }: ConfirmationParams) {
@@ -16,19 +16,20 @@ export async function sendConfirmationEmail({ to, patientName, date, time }: Con
     month: "long",
     day: "numeric",
   });
+  const heure = time || "À confirmer";
 
   await sgMail.send({
     to,
     from: process.env.SENDGRID_FROM_EMAIL || "",
     subject: "Confirmation de rendez-vous - Cabinet Gynécologique",
-    text: `Bonjour ${patientName},\n\nVotre rendez-vous est confirmé :\n\nDate : ${formattedDate}\nHeure : ${time}\n\nAdresse : [Adresse du cabinet]\n\nMerci de votre confiance.\n\nCabinet Gynécologique`,
+    text: `Bonjour ${patientName},\n\nVotre demande de rendez-vous est confirmée :\n\nDate : ${formattedDate}\nHeure : ${heure}\n\nAdresse : [Adresse du cabinet]\n\nMerci de votre confiance.\n\nCabinet Gynécologique`,
     html: `
       <h2>Confirmation de rendez-vous</h2>
       <p>Bonjour <strong>${patientName}</strong>,</p>
-      <p>Votre rendez-vous est confirmé :</p>
+      <p>Votre demande de rendez-vous est confirmée :</p>
       <table>
         <tr><td><strong>Date :</strong></td><td>${formattedDate}</td></tr>
-        <tr><td><strong>Heure :</strong></td><td>${time}</td></tr>
+        <tr><td><strong>Heure :</strong></td><td>${heure}</td></tr>
       </table>
       <p><strong>Adresse :</strong> [Adresse du cabinet]</p>
       <br/>

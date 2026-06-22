@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useToast } from "@/components/ui/Toast";
 
@@ -139,6 +139,22 @@ export default function PatientDetailPage() {
     }
   };
 
+  const pdfRef = useRef<HTMLDivElement>(null);
+
+  const downloadPdf = async () => {
+    if (!patient) return;
+    const { default: html2canvas } = await import("html2canvas");
+    const { default: jsPDF } = await import("jspdf");
+    if (!pdfRef.current) return;
+    const canvas = await html2canvas(pdfRef.current, { scale: 2, useCORS: true });
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
+    const imgW = 190;
+    const imgH = (canvas.height * imgW) / canvas.width;
+    pdf.addImage(imgData, "PNG", 10, 10, imgW, imgH);
+    pdf.save(`${patient.patientName.replace(/\s+/g, "_")}_dossier.pdf`);
+  };
+
   if (loading) return <div className="py-12 text-center opacity-60">{t("loading")}</div>;
   if (error || !patient) return <div className="py-12 text-center text-red-500">{error || t("not_found")}</div>;
 
@@ -162,18 +178,11 @@ export default function PatientDetailPage() {
 
   return (
     <div>
-      <style>{`
-        @media print {
-          header, footer, .no-print { display: none !important; }
-          body { background: white !important; }
-          .print-only { display: block !important; }
-        }
-        .print-only { display: none; }
-      `}</style>
       <Link href={`/${locale}/admin/patients`} className="no-print mb-4 inline-block text-sm opacity-60 hover:opacity-100">
         ← {t("back_to_patients")}
       </Link>
 
+      <div ref={pdfRef}>
       <div className="mb-8 rounded-xl p-6 shadow-sm" style={{ backgroundColor: "#fff" }}>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -189,7 +198,7 @@ export default function PatientDetailPage() {
             <button onClick={openEditModal} className="rounded-lg px-3 py-1 text-xs font-medium text-white transition-opacity hover:opacity-90" style={{ backgroundColor: "var(--color-primary)" }}>
               {t("edit")}
             </button>
-            <button onClick={() => window.print()} className="rounded-lg px-3 py-1 text-xs font-medium transition-opacity hover:opacity-90" style={{ backgroundColor: "#f3f4f6", color: "#374151" }}>
+            <button onClick={downloadPdf} className="rounded-lg px-3 py-1 text-xs font-medium transition-opacity hover:opacity-90" style={{ backgroundColor: "#f3f4f6", color: "#374151" }}>
               PDF
             </button>
           </div>
@@ -295,6 +304,7 @@ export default function PatientDetailPage() {
             ))}
           </div>
         )}
+      </div>
       </div>
 
       {showEditModal && (
