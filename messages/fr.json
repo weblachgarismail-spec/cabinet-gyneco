@@ -53,6 +53,54 @@
         ],
         "services_title": "Nos Services",
         "services_desc": "Des soins complets pour la santé des femmes, de l'adolescence à la ménopause.",
+        "about_title": "Votre gynécologue à Salé",
+        "about_cta": "En savoir plus sur le Dr.",
+        "testimonials_title": "Ce que disent nos patientes",
+        "testimonials_subtitle": "Leur satisfaction est notre plus belle récompense",
+        "testimonials": [
+            {
+                "name": "Fatima Zohra",
+                "text": "Un grand merci au Dr. pour son professionnalisme et sa bienveillance. Je me suis sentie en confiance dès la première consultation. Le suivi de grossesse a été exemplaire !",
+                "rating": 5
+            },
+            {
+                "name": "Khadija Benali",
+                "text": "Je recommande vivement ce cabinet ! L'accueil est chaleureux et les explications très claires. L'échographie a été faite avec beaucoup de soin et de précision.",
+                "rating": 5
+            },
+            {
+                "name": "Salma El Amrani",
+                "text": "Je suis venue pour un frottis de routine, j'appréhendais un peu mais le Dr. a été très douce et rassurante. Tout s'est bien passé, merci !",
+                "rating": 5
+            },
+            {
+                "name": "Nadia Tazi",
+                "text": "Suivie depuis des années par le Dr., je ne changerais pour rien au monde. Une gynécologue à l'écoute, compétente et humaine. Je la recommande les yeux fermés.",
+                "rating": 5
+            }
+        ],
+        "faq": [
+            {
+                "question": "À partir de quel âge faut-il consulter un gynécologue ?",
+                "answer": "Il est recommandé de consulter pour la première fois entre 15 et 18 ans, ou dès le début de la vie sexuelle. La première consultation permet de faire connaissance, de répondre à vos questions et de mettre en place un suivi personnalisé."
+            },
+            {
+                "question": "Comment se déroule une consultation gynécologique ?",
+                "answer": "La consultation commence par un entretien confidentiel sur vos antécédents et votre motif de visite. Si nécessaire, un examen clinique est réalisé avec votre consentement. Tout vous est expliqué avant chaque geste. Vous pouvez venir accompagnée si vous le souhaitez."
+            },
+            {
+                "question": "Faut-il être à jeun pour une échographie ?",
+                "answer": "Pour une échographie pelvienne, il est conseillé d'avoir la vessie pleine (boire 1 litre d'eau 1 heure avant) mais pas nécessairement à jeun. Pour l'échographie du premier trimestre de grossesse, la vessie pleine améliore la qualité des images."
+            },
+            {
+                "question": "Quels sont les horaires du cabinet ?",
+                "answer": "Le cabinet est ouvert du lundi au vendredi de 9h à 13h et de 15h à 19h, ainsi que le samedi de 9h à 13h. Les consultations se font uniquement sur rendez-vous. Contactez-nous pour toute urgence."
+            },
+            {
+                "question": "Acceptez-vous les assurances et la CNSS ?",
+                "answer": "Oui, nous acceptons la CNSS, la CNOPS et les principales mutuelles. N'hésitez pas à nous contacter pour vérifier la prise en charge de votre assurance. Nous proposons également des facilités de paiement."
+            }
+        ],
         "cta_section_title": "Prête pour votre prochain rendez-vous ?",
         "cta_section_desc": "Réservez dès maintenant une consultation dans notre cabinet à Salé."
     },
