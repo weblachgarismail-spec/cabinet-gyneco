@@ -74,7 +74,7 @@ export function ChatBot({ triggerRef }: { triggerRef?: React.RefObject<HTMLButto
     <>
       {open && (
         <div
-          className="fixed bottom-6 left-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
+          className="fixed bottom-6 left-4 right-4 z-50 flex flex-col rounded-xl shadow-xl sm:left-6 sm:right-auto sm:w-96"
           style={{ backgroundColor: "#fff", maxHeight: "560px" }}
         >
           <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary)" }}>

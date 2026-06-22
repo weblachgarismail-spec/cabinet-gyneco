@@ -41,7 +41,7 @@ export default async function HomePage({ params }: Props) {
           <div className="anim-fade-in-up mb-6 inline-block rounded-full px-4 py-1.5 text-xs font-medium tracking-wide uppercase" style={{ backgroundColor: "oklch(55% 0.15 340 / 0.1)", color: "var(--color-primary)" }}>
             Cabinet Gynécologique El Jadida
           </div>
-          <h1 className="anim-fade-in-up anim-delay-1 mb-6 text-4xl font-extrabold leading-tight md:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
+          <h1 className="anim-fade-in-up anim-delay-1 mb-6 text-3xl font-extrabold leading-tight sm:text-4xl md:text-6xl" style={{ color: "var(--color-primary-dark)" }}>
             {t("title")}
           </h1>
           <p className="anim-fade-in-up anim-delay-2 mx-auto mb-4 max-w-xl text-lg leading-relaxed md:text-xl" style={{ color: "oklch(40% 0.02 340 / 0.8)" }}>
@@ -60,14 +60,14 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── FEATURES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="anim-fade-in-up mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Pourquoi nous choisir</span>
           <h2 className="text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
             {t("features_title")}
           </h2>
         </div>
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           {(t.raw("features") as FeatureItem[]).map((f, i) => (
             <div key={i} className={`anim-fade-in-up anim-delay-${i + 1} card-hover group overflow-hidden rounded-2xl`} style={{ backgroundColor: "#fff" }}>
               <div className="relative h-52 overflow-hidden">
@@ -87,7 +87,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── STATS ─── */}
-      <section className="relative overflow-hidden px-4 py-20" style={{ background: "linear-gradient(135deg, var(--color-primary-dark), var(--color-primary))" }}>
+      <section className="relative overflow-hidden px-4 py-16 md:py-20" style={{ background: "linear-gradient(135deg, var(--color-primary-dark), var(--color-primary))" }}>
         <div className="anim-float absolute -right-16 -top-16 text-[200px] font-bold opacity-[0.04] text-white">✚</div>
         <div className="anim-float absolute -bottom-20 -left-20 text-[250px] font-bold opacity-[0.04] text-white" style={{ animationDelay: "2s" }}>✚</div>
         <div className="relative mx-auto max-w-6xl">
@@ -103,7 +103,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── SERVICES ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="anim-fade-in-up mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Nos services</span>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
@@ -111,7 +111,7 @@ export default async function HomePage({ params }: Props) {
           </h2>
           <p className="mx-auto max-w-xl leading-relaxed opacity-70">{t("services_desc")}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {((await getTranslations({ locale, namespace: "services" })).raw("items") as ServiceItem[]).slice(0, 3).map((item, i) => (
             <Link key={item.slug} href={`/${locale}/services/${item.slug}`} className={`anim-fade-in-up anim-delay-${i + 1} card-hover group overflow-hidden rounded-2xl`} style={{ backgroundColor: "#fff" }}>
               <div className="relative h-44 overflow-hidden">
@@ -137,7 +137,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── ABOUT / DOCTOR ─── */}
-      <section className="relative overflow-hidden px-4 py-24" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340), #fff)" }}>
+      <section className="relative overflow-hidden px-4 py-16 md:py-24" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340), #fff)" }}>
         <div className="anim-blob absolute -left-32 -top-32 h-96 w-96 opacity-10" style={{ background: "var(--color-primary-dark)" }} />
         <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
           <div className="anim-fade-in-up relative">
@@ -182,7 +182,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── TESTIMONIALS ─── */}
-      <section className="mx-auto max-w-6xl px-4 py-24">
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-24">
         <div className="anim-fade-in-up mb-14 text-center">
           <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>Témoignages</span>
           <h2 className="mb-4 text-3xl font-bold md:text-4xl" style={{ color: "var(--color-primary-dark)" }}>
@@ -208,7 +208,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section className="px-4 py-24" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340 / 0.3), #fff)" }}>
+      <section className="px-4 py-16 md:py-24" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340 / 0.3), #fff)" }}>
         <div className="mx-auto max-w-3xl">
           <div className="anim-fade-in-up mb-14 text-center">
             <span className="mb-2 inline-block text-xs font-semibold tracking-widest uppercase" style={{ color: "var(--color-primary)" }}>FAQ</span>
@@ -221,7 +221,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="relative overflow-hidden px-4 py-24 text-center" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340), #fff)" }}>
+      <section className="relative overflow-hidden px-4 py-16 md:py-24 text-center" style={{ background: "linear-gradient(135deg, oklch(92% 0.04 340), #fff)" }}>
         <div className="anim-float absolute -right-10 -top-10 text-[150px] font-bold opacity-[0.04]" style={{ color: "var(--color-primary)" }}>✚</div>
         <div className="anim-float absolute -bottom-10 -left-10 text-[180px] font-bold opacity-[0.04]" style={{ color: "var(--color-primary-dark)", animationDelay: "2.5s" }}>✚</div>
         <div className="anim-blob absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 opacity-[0.03]" style={{ background: "var(--color-primary-dark)" }} />

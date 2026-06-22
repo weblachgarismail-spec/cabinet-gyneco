@@ -100,12 +100,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
                   <CalendarPicker selected={date} onSelect={(d) => { setDate(d); setErrors((e) => ({ ...e, date: "" })); }} />
                 </div>
 
-                {date && (
-                  <div className="mb-4 rounded-xl p-3 text-center text-sm" style={{ backgroundColor: "oklch(55% 0.15 340 / 0.08)" }}>
-                    <span className="font-semibold" style={{ color: "var(--color-primary)" }}>{new Date(date + "T00:00:00").toLocaleDateString(locale === "fr" ? "fr-FR" : "ar-SA", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
-                  </div>
-                )}
-
                 <div className="space-y-4">
                   <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder={t("form_name")} className="input-modern w-full" style={{ borderColor: errors.name ? "#ef4444" : undefined }} />
                   {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
@@ -130,7 +124,6 @@ export default function BookingModal({ label, className, icon, triggerRef }: Pro
                     ) : t("form_submit")}
                   </button>
 
-                  <p className="pt-2 text-center text-xs opacity-50">{t("callback_notice")}</p>
                 </div>
               </>
             )}
