@@ -680,5 +680,20 @@
         "emergency": "Urgence : Appelez le +212 5XX-XXXXXX",
         "legal": "Mentions légales",
         "privacy": "Confidentialité"
+    },
+    "seo": {
+        "home_title": "Cabinet Gynécologique El Jadida - Dr. [Nom]",
+        "home_desc": "Cabinet gynécologique à El Jadida. Consultations gynécologiques, suivi de grossesse, échographies et dépistages par une équipe bienveillante et expérimentée.",
+        "about_title": "À propos du Dr. [Nom] - Gynécologue à Salé",
+        "about_desc": "Découvrez le parcours et la philosophie du Dr. [Nom], gynécologue obstétricienne à Salé. Diplômée de Casablanca avec plus de 15 ans d'expérience.",
+        "services_title": "Nos services gynécologiques | Cabinet El Jadida",
+        "services_desc": "Consultations, suivi de grossesse, échographies, dépistages, ménopause et contraception. Des soins complets pour la santé des femmes à El Jadida.",
+        "blog_title": "Blog Santé Féminine | Cabinet Gynécologique El Jadida",
+        "blog_desc": "Articles sur la santé des femmes : grossesse, contraception, ménopause, endométriose et bien-être féminin. Conseils de votre gynécologue à El Jadida.",
+        "contact_title": "Contact | Cabinet Gynécologique El Jadida",
+        "contact_desc": "Contactez le Cabinet Gynécologique El Jadida pour prendre rendez-vous ou obtenir des informations. Téléphone, adresse et formulaire en ligne.",
+        "privacy_title": "Politique de confidentialité | Cabinet Gynécologique El Jadida",
+        "privacy_desc": "Politique de confidentialité du Cabinet Gynécologique El Jadida. Seules les données nécessaires à la prise de rendez-vous sont collectées.",
+        "legal_title": "Mentions légales | Cabinet Gynécologique El Jadida"
     }
 }
