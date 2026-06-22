@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
-import { ChatBot } from "@/components/chat/ChatBot";
 import { LocaleProvider } from "@/components/layout/LocaleProvider";
 import { AuthProvider } from "@/components/layout/AuthProvider";
 
@@ -28,6 +27,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     services: t("services"),
     blog: t("blog"),
     booking: t("booking"),
+    chatbot: t("chatbot"),
     contact: t("contact"),
     admin: t("admin"),
     lang: t("lang"),
@@ -42,7 +42,6 @@ export default async function LocaleLayout({ children, params }: Props) {
           <main className="flex-1">{children}</main>
           <Footer locale={locale} />
           <WhatsAppButton />
-          <ChatBot />
         </div>
       </NextIntlClientProvider>
     </LocaleProvider>

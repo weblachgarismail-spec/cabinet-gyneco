@@ -5,10 +5,11 @@ import { useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Link, usePathname } from "@/navigation";
 import BookingModal from "@/components/BookingModal";
+import { ChatBot } from "@/components/chat/ChatBot";
 
 type Props = { navLabels: Record<string, string> };
 
-const publicKeys = ["home", "about", "services", "blog", "booking", "contact"] as const;
+const publicKeys = ["home", "about", "services", "blog", "booking", "chatbot", "contact"] as const;
 
 export function Header({ navLabels }: Props) {
   const pathname = usePathname();
@@ -18,6 +19,7 @@ export function Header({ navLabels }: Props) {
   const [scrolled, setScrolled] = useState(false);
   const targetLocale = currentLocale === "fr" ? "ar" : "fr";
   const bookingBtnRef = useRef<HTMLButtonElement>(null);
+  const chatbotBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -51,29 +53,45 @@ export function Header({ navLabels }: Props) {
 
         <nav className={`${mobileOpen ? "block" : "hidden"} absolute left-0 right-0 top-full z-50 border-t p-4 shadow-lg md:static md:flex md:items-center md:gap-1 md:border-none md:p-0 md:shadow-none`}
           style={{ backgroundColor: "oklch(100% 0 0 / 0.95)", backdropFilter: "blur(12px)" }}>
-          {publicKeys.map((key) => (
-            key === "booking" ? (
-              <button
+          {publicKeys.map((key) => {
+            if (key === "booking") {
+              return (
+                <button
+                  key={key}
+                  ref={bookingBtnRef}
+                  className="block rounded-lg px-3 py-2 text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
+                  style={{ color: "var(--color-text)" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {navLabels[key]}
+                </button>
+              );
+            }
+            if (key === "chatbot") {
+              return (
+                <button
+                  key={key}
+                  ref={chatbotBtnRef}
+                  className="block rounded-lg px-3 py-2 text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
+                  style={{ color: "var(--color-primary)" }}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {navLabels[key]}
+                </button>
+              );
+            }
+            return (
+              <Link
                 key={key}
-                ref={bookingBtnRef}
+                href={key === "home" ? "/" : `/${key}`}
                 className="block rounded-lg px-3 py-2 text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
                 style={{ color: "var(--color-text)" }}
                 onClick={() => setMobileOpen(false)}
               >
                 {navLabels[key]}
-              </button>
-            ) : (
-            <Link
-              key={key}
-              href={key === "home" ? "/" : `/${key}`}
-              className="block rounded-lg px-3 py-2 text-sm transition-all hover:opacity-80 md:px-2 md:py-1.5"
-              style={{ color: "var(--color-text)" }}
-              onClick={() => setMobileOpen(false)}
-            >
-              {navLabels[key]}
-            </Link>
-            )
-          ))}
+              </Link>
+            );
+          })}
           <Link
             href={pathname}
             locale={targetLocale}
@@ -92,6 +110,7 @@ export function Header({ navLabels }: Props) {
         </button>
       </div>
       <BookingModal triggerRef={bookingBtnRef} />
+      <ChatBot triggerRef={chatbotBtnRef} />
     </header>
   );
 }

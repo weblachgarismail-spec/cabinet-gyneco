@@ -9,7 +9,7 @@ type Message = {
   text: string;
 };
 
-export function ChatBot() {
+export function ChatBot({ triggerRef }: { triggerRef?: React.RefObject<HTMLButtonElement | null> }) {
   const locale = useLocale();
   const t = useTranslations("chat");
   const [open, setOpen] = useState(false);
@@ -19,6 +19,15 @@ export function ChatBot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!triggerRef) return;
+    const el = triggerRef.current;
+    if (!el) return;
+    const handler = () => setOpen((v) => !v);
+    el.addEventListener("click", handler);
+    return () => el.removeEventListener("click", handler);
+  }, [triggerRef]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -53,7 +62,7 @@ export function ChatBot() {
     <>
       {open && (
         <div
-          className="fixed bottom-24 right-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
+          className="fixed bottom-6 left-6 z-50 flex w-80 flex-col rounded-xl shadow-xl sm:w-96"
           style={{ backgroundColor: "#fff", maxHeight: "500px" }}
         >
           <div className="flex items-center justify-between rounded-t-xl px-4 py-3 text-white" style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}>
@@ -118,16 +127,6 @@ export function ChatBot() {
           </div>
         </div>
       )}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-20 z-50 flex h-14 w-14 items-center justify-center rounded-full shadow-lg transition-transform hover:scale-110"
-        style={{ backgroundColor: "var(--color-primary, #8B5CF6)" }}
-        aria-label="Chat"
-      >
-        <svg className="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-      </button>
     </>
   );
 }
